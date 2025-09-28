@@ -35,12 +35,10 @@ func (r *Resp) readLine() ([]byte, int, error) {
 	return line, n, nil
 }
 
-var errReadingPrefix = fmt.Errorf("error reading prefix")
-
 func (r *Resp) Read() (Value, error) {
 	prefix, err := r.reader.ReadByte()
 	if err != nil {
-		return Value{}, errors.Join(errReadingPrefix, err)
+		return Value{}, errors.Join(fmt.Errorf("error reading prefix"), err)
 	}
 	switch prefix {
 	case ARRAY:
