@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -27,9 +28,13 @@ var Handlers = map[string]func(args []Value) Value{
 	"FLUSH":   FlushCommand,
 }
 
-func main() {
+var aofFilePath = flag.String("aof", "database.aof", "Path to the AOF file")
+
+func init() {
+	flag.Parse()
+
 	var err error
-	AOF, err = NewAof("database.aof")
+	AOF, err = NewAof(*aofFilePath)
 	if err != nil {
 		log.Println(err)
 		return
@@ -52,6 +57,9 @@ func main() {
 		log.Println("Error reading AOF:", err)
 		return
 	}
+}
+
+func main() {
 
 	l, err := net.Listen("tcp", ":6379")
 	if err != nil {
