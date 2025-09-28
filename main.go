@@ -36,10 +36,8 @@ func init() {
 	var err error
 	AOF, err = NewAof(*aofFilePath)
 	if err != nil {
-		log.Println(err)
-		return
+		log.Fatalln(fmt.Errorf("Error initializing AOF: %v", err))
 	}
-	defer AOF.Close()
 
 	err = AOF.Read(func(value Value) {
 		command := strings.ToUpper(value.array[0].bulk)
@@ -54,12 +52,12 @@ func init() {
 		handler(args)
 	})
 	if err != nil {
-		log.Println("Error reading AOF:", err)
-		return
+		log.Fatalln("Error reading AOF:", err)
 	}
 }
 
 func main() {
+	defer AOF.Close()
 
 	l, err := net.Listen("tcp", ":6379")
 	if err != nil {
