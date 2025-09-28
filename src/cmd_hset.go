@@ -7,20 +7,24 @@ func HSetCommand(args []Value) Value {
 
 	key := args[0].bulk
 
-	HSETsMu.Lock()
-	defer HSETsMu.Unlock()
-
+	HSETsMu.RLock()
 	hset, ok := HSETs[key]
+	HSETsMu.RUnlock()
+
 	if !ok {
 		hset = map[string]string{}
+		HSETsMu.Lock()
 		HSETs[key] = hset
+		HSETsMu.Unlock()
 	}
 
+	HSETsMu.Lock()
 	for i := 1; i < len(args); i += 2 {
 		field := args[i].bulk
 		value := args[i+1].bulk
 		hset[field] = value
 	}
+	HSETsMu.Unlock()
 
 	return Value{typ: "string", str: "OK"}
 }

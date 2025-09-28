@@ -8,9 +8,9 @@ func GetCommand(args []Value) Value {
 	key := args[0].bulk
 
 	SETsMu.RLock()
-	defer SETsMu.RUnlock()
-
 	value, ok := SETs[key]
+	SETsMu.RUnlock()
+
 	if !ok {
 		return Value{typ: "null", str: ""}
 	}

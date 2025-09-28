@@ -7,10 +7,10 @@ func HGetAllCommand(args []Value) Value {
 
 	key := args[0].bulk
 
-	HSETsMu.Lock()
-	defer HSETsMu.Unlock()
-
+	HSETsMu.RLock()
 	hget, ok := HSETs[key]
+	HSETsMu.RUnlock()
+
 	if !ok {
 		return Value{typ: "null"}
 	}

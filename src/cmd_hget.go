@@ -8,15 +8,10 @@ func HGetCommand(args []Value) Value {
 	key := args[0].bulk
 	field := args[1].bulk
 
-	HSETsMu.Lock()
-	defer HSETsMu.Unlock()
+	HSETsMu.RLock()
+	value, ok := HSETs[key][field]
+	HSETsMu.RUnlock()
 
-	hget, ok := HSETs[key]
-	if !ok {
-		return Value{typ: "null"}
-	}
-
-	value, ok := hget[field]
 	if !ok {
 		return Value{typ: "null"}
 	}

@@ -30,7 +30,7 @@ var Handlers = map[string]func(args []Value) Value{
 func main() {
 	aof, err := NewAof("database.aof")
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 		return
 	}
 	AOF = aof
@@ -42,28 +42,28 @@ func main() {
 
 		handler, ok := Handlers[command]
 		if !ok {
-			fmt.Println("Invalid command: ", command)
+			log.Println("Invalid command:", command)
 			return
 		}
-
 		handler(args)
 	})
 	if err != nil {
-		fmt.Println("Error reading AOF: ", err)
+		log.Println("Error reading AOF:", err)
 		return
 	}
 
 	l, err := net.Listen("tcp", ":6379")
 	if err != nil {
-		log.Println("Error starting server: ", err)
+		log.Println("Error starting server:", err)
 		return
 	}
+
 	log.Println("Listening on port :6379")
 
 	for {
 		conn, err := l.Accept()
 		if err != nil {
-			log.Println("Error accepting connection: ", err)
+			log.Println("Error accepting connection:", err)
 			continue
 		}
 
@@ -87,7 +87,7 @@ func handle(conn net.Conn) {
 		resp := NewResp(conn)
 		value, err := resp.Read()
 		if err != nil {
-			log.Println("Error reading from connection: ", err)
+			log.Println("Error reading from connection:", err)
 			return
 		}
 
@@ -108,23 +108,21 @@ func handle(conn net.Conn) {
 
 		handler, ok := Handlers[command]
 		if !ok {
-			log.Println("Invalid command:", command)
-			log.Println("Args", args)
-			writer.Write(Value{typ: "string", str: ""})
+			writer.Write(Value{typ: "string", str: fmt.Sprintf("ERR unknown command '%s'", command)})
 			continue
 		}
 
 		if !slices.Contains(DontStorageCmds, command) {
 			err = AOF.Write(value)
 			if err != nil {
-				log.Println("Error writing to AOF: ", err)
+				log.Println("Error writing to AOF:", err)
 			}
 		}
 
 		result := handler(args)
 		err = writer.Write(result)
 		if err != nil {
-			log.Println("Error writing to connection: ", err)
+			log.Println("Error writing to connection:", err)
 		}
 	}
 }
