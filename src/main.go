@@ -28,12 +28,12 @@ var Handlers = map[string]func(args []Value) Value{
 }
 
 func main() {
-	aof, err := NewAof("database.aof")
+	var err error
+	AOF, err = NewAof("database.aof")
 	if err != nil {
 		log.Println(err)
 		return
 	}
-	AOF = aof
 	defer AOF.Close()
 
 	err = AOF.Read(func(value Value) {
@@ -42,6 +42,7 @@ func main() {
 
 		handler, ok := Handlers[command]
 		if !ok {
+			// this should never happen
 			log.Println("Invalid command:", command)
 			return
 		}
