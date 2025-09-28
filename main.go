@@ -11,7 +11,7 @@ import (
 )
 
 var AOF *Aof
-var KEYs = map[string]string{}
+var KEYs = map[string]ValueType{}
 var KEYsMu = &sync.RWMutex{}
 
 var SETs = map[string]string{}

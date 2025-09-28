@@ -19,7 +19,7 @@ func HSetCommand(args []Value) Value {
 	}
 
 	KEYsMu.Lock()
-	KEYs[key] = "hash"
+	KEYs[key] = HashValueType
 	KEYsMu.Unlock()
 
 	HSETsMu.Lock()

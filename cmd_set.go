@@ -9,7 +9,7 @@ func SetCommand(args []Value) Value {
 	value := args[1].bulk
 
 	KEYsMu.Lock()
-	KEYs[key] = "string"
+	KEYs[key] = StringValueType
 	KEYsMu.Unlock()
 
 	SETsMu.Lock()
