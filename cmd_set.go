@@ -8,6 +8,10 @@ func SetCommand(args []Value) Value {
 	key := args[0].bulk
 	value := args[1].bulk
 
+	KEYsMu.Lock()
+	KEYs[key] = "string"
+	KEYsMu.Unlock()
+
 	SETsMu.Lock()
 	SETs[key] = value
 	SETsMu.Unlock()

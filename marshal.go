@@ -14,8 +14,18 @@ func (v Value) Marshal() []byte {
 		return v.marshallError()
 	case "null":
 		return v.marshallNull()
+	case "integer":
+		return v.marshalInteger()
 	}
 	return nil
+}
+
+func (v Value) marshalInteger() []byte {
+	var bytes []byte
+	bytes = append(bytes, INTEGER)
+	bytes = append(bytes, fmt.Appendf(nil, "%d", v.integer)...)
+	bytes = append(bytes, '\r', '\n')
+	return bytes
 }
 
 func (v Value) marshalString() []byte {

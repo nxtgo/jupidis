@@ -11,6 +11,9 @@ import (
 )
 
 var AOF *Aof
+var KEYs = map[string]string{}
+var KEYsMu = &sync.RWMutex{}
+
 var SETs = map[string]string{}
 var SETsMu = &sync.RWMutex{}
 
@@ -26,6 +29,7 @@ var Handlers = map[string]func(args []Value) Value{
 	"HGETALL": HGetAllCommand,
 	"COMMAND": CommandCommand,
 	"FLUSH":   FlushCommand,
+	"EXISTS":  ExistsCommand,
 }
 
 var aofFilePath = flag.String("aof", "database.aof", "Path to the AOF file")

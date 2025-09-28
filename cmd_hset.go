@@ -18,6 +18,10 @@ func HSetCommand(args []Value) Value {
 		HSETsMu.Unlock()
 	}
 
+	KEYsMu.Lock()
+	KEYs[key] = "hash"
+	KEYsMu.Unlock()
+
 	HSETsMu.Lock()
 	for i := 1; i < len(args); i += 2 {
 		field := args[i].bulk
