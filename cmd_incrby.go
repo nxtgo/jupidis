@@ -24,7 +24,7 @@ func IncrByCommand(args []Value) Value {
 	if !ok {
 		SETs[key] = strconv.Itoa(increment)
 		KEYs[key] = StringValueType
-		return Value{typ: "integer", integer: int64(increment)}
+		return Value{typ: "integer", integer: increment}
 	}
 
 	intValue, err := strconv.Atoi(value)
@@ -34,5 +34,5 @@ func IncrByCommand(args []Value) Value {
 
 	intValue += increment
 	SETs[key] = strconv.Itoa(intValue)
-	return Value{typ: "integer", integer: int64(intValue)}
+	return Value{typ: "integer", integer: intValue}
 }

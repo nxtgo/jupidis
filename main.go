@@ -21,6 +21,7 @@ var HSETs = map[string]map[string]string{}
 var HSETsMu = &sync.RWMutex{}
 
 var Handlers = map[string]func(args []Value) Value{
+	"APPEND":  AppendCommand,
 	"COMMAND": CommandCommand,
 	"DECR":    DecrCommand,
 	"DECRBY":  DecrByCommand,
@@ -88,16 +89,21 @@ func main() {
 }
 
 var DontStoreCmds = []string{
-	"COMMAND",
-	// DEL
-	"EXISTS",
-	"FLUSH",
-	"GET",
-	"HGET",
-	"HGETALL",
-	// HSET
-	"PING",
-	// SET
+	"APPEND",
+	// "COMMAND",
+	"DECR",
+	"DECRBY",
+	"DEL",
+	// "EXISTS",
+	// "FLUSH",
+	// "GET",
+	// "HGET",
+	// "HGETALL",
+	"HSET",
+	"INCR",
+	"INCRBY",
+	// "PING",
+	"SET",
 }
 
 func handle(conn net.Conn) {

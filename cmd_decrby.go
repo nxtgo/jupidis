@@ -27,7 +27,7 @@ func DecrByCommand(args []Value) Value {
 	if !ok {
 		SETs[key] = fmt.Sprintf("%d", -decrement)
 		KEYs[key] = StringValueType
-		return Value{typ: "integer", integer: int64(-decrement)}
+		return Value{typ: "integer", integer: -decrement}
 	}
 
 	intValue, err := strconv.Atoi(value)
@@ -37,5 +37,5 @@ func DecrByCommand(args []Value) Value {
 
 	intValue -= decrement
 	SETs[key] = strconv.Itoa(intValue)
-	return Value{typ: "integer", integer: int64(intValue)}
+	return Value{typ: "integer", integer: intValue}
 }

@@ -8,7 +8,7 @@ func ExistsCommand(args []Value) Value {
 	KEYsMu.RLock()
 	defer KEYsMu.RUnlock()
 
-	var count int64
+	var count int
 	for _, arg := range args {
 		key := arg.bulk
 		if _, ok := KEYs[key]; ok {

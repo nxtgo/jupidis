@@ -13,7 +13,7 @@ type Value struct {
 	str     string
 	bulk    string
 	array   []Value
-	integer int64
+	integer int
 }
 
 type ValueType int

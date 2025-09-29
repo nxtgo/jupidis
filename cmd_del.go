@@ -35,5 +35,5 @@ func DelCommand(args []Value) Value {
 		deletedCount++
 	}
 
-	return Value{typ: "integer", integer: int64(deletedCount)}
+	return Value{typ: "integer", integer: deletedCount}
 }

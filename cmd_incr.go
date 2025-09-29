@@ -28,5 +28,5 @@ func IncrCommand(args []Value) Value {
 
 	intValue++
 	SETs[key] = strconv.Itoa(intValue)
-	return Value{typ: "integer", integer: int64(intValue)}
+	return Value{typ: "integer", integer: intValue}
 }
