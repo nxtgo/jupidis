@@ -22,6 +22,7 @@ var HSETsMu = &sync.RWMutex{}
 
 var Handlers = map[string]func(args []Value) Value{
 	"COMMAND": CommandCommand,
+	"DECR":    DecrCommand,
 	"DEL":     DelCommand,
 	"EXISTS":  ExistsCommand,
 	"FLUSH":   FlushCommand,
@@ -29,6 +30,7 @@ var Handlers = map[string]func(args []Value) Value{
 	"HGET":    HGetCommand,
 	"HGETALL": HGetAllCommand,
 	"HSET":    HSetCommand,
+	"INCR":    IncrCommand,
 	"PING":    PingCommand,
 	"SET":     SetCommand,
 }
