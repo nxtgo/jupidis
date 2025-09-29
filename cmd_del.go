@@ -1,5 +1,7 @@
 package main
 
+import "log"
+
 func DelCommand(args []Value) Value {
 	if len(args) < 1 {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
@@ -24,6 +26,10 @@ func DelCommand(args []Value) Value {
 			delete(SETs, key)
 		case HashValueType:
 			delete(HSETs, key)
+		default:
+			log.Println("Unknown value type in DEL command:", valueType)
+			// Should not happen
+			continue
 		}
 		delete(KEYs, key)
 		deletedCount++
