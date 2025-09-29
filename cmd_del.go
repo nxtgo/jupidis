@@ -7,8 +7,6 @@ func DelCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
-	KEYsMu.Lock()
-	defer KEYsMu.Unlock()
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 	HSETsMu.Lock()
@@ -17,22 +15,18 @@ func DelCommand(args []Value) Value {
 	var deletedCount int
 	for _, arg := range args {
 		key := arg.bulk
-		valueType, ok := KEYs[key]
-		if !ok {
-			continue
-		}
-		switch valueType {
-		case StringValueType:
+		if _, ok := SETs[key]; ok {
+			deletedCount++
 			delete(SETs, key)
-		case HashValueType:
+			continue
+		} else if _, ok := HSETs[key]; ok {
+			deletedCount++
 			delete(HSETs, key)
-		default:
-			log.Println("Unknown value type in DEL command:", valueType)
-			// Should not happen
+			continue
+		} else {
+			log.Println("DEL: key not found:", key)
 			continue
 		}
-		delete(KEYs, key)
-		deletedCount++
 	}
 
 	return Value{typ: "integer", integer: deletedCount}

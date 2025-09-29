@@ -18,15 +18,12 @@ func DecrByCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR value is not an integer or out of range"}
 	}
 
-	KEYsMu.Lock()
-	defer KEYsMu.Unlock()
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
 	value, ok := SETs[key]
 	if !ok {
 		SETs[key] = fmt.Sprintf("%d", -decrement)
-		KEYs[key] = StringValueType
 		return Value{typ: "integer", integer: -decrement}
 	}
 

@@ -15,15 +15,12 @@ func IncrByCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR value is not an integer or out of range"}
 	}
 
-	KEYsMu.Lock()
-	defer KEYsMu.Unlock()
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
 	value, ok := SETs[key]
 	if !ok {
 		SETs[key] = strconv.Itoa(increment)
-		KEYs[key] = StringValueType
 		return Value{typ: "integer", integer: increment}
 	}
 

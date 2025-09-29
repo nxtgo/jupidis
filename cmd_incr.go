@@ -9,15 +9,12 @@ func IncrCommand(args []Value) Value {
 
 	key := args[0].bulk
 
-	KEYsMu.Lock()
-	defer KEYsMu.Unlock()
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
 	value, ok := SETs[key]
 	if !ok {
 		SETs[key] = "1"
-		KEYs[key] = StringValueType
 		return Value{typ: "integer", integer: 1}
 	}
 

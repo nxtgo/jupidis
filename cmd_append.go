@@ -8,15 +8,12 @@ func AppendCommand(args []Value) Value {
 	key := args[0].bulk
 	appendValue := args[1].bulk
 
-	KEYsMu.Lock()
-	defer KEYsMu.Unlock()
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
 	value, ok := SETs[key]
 	if !ok {
 		SETs[key] = appendValue
-		KEYs[key] = StringValueType
 		return Value{typ: "integer", integer: len(appendValue)}
 	}
 
