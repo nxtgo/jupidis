@@ -21,15 +21,16 @@ var HSETs = map[string]map[string]string{}
 var HSETsMu = &sync.RWMutex{}
 
 var Handlers = map[string]func(args []Value) Value{
-	"PING":    PingCommand,
-	"SET":     SetCommand,
+	"COMMAND": CommandCommand,
+	"DEL":     DelCommand,
+	"EXISTS":  ExistsCommand,
+	"FLUSH":   FlushCommand,
 	"GET":     GetCommand,
-	"HSET":    HSetCommand,
 	"HGET":    HGetCommand,
 	"HGETALL": HGetAllCommand,
-	"COMMAND": CommandCommand,
-	"FLUSH":   FlushCommand,
-	"EXISTS":  ExistsCommand,
+	"HSET":    HSetCommand,
+	"PING":    PingCommand,
+	"SET":     SetCommand,
 }
 
 var aofFilePath = flag.String("aof", "database.aof", "Path to the AOF file")
@@ -82,13 +83,17 @@ func main() {
 	}
 }
 
-var DontStorageCmds = []string{
-	"PING",
+var DontStoreCmds = []string{
+	"COMMAND",
+	// DEL
+	"EXISTS",
+	"FLUSH",
 	"GET",
 	"HGET",
 	"HGETALL",
-	"COMMAND",
-	"FLUSH",
+	// HSET
+	"PING",
+	// SET
 }
 
 func handle(conn net.Conn) {
@@ -123,7 +128,7 @@ func handle(conn net.Conn) {
 			continue
 		}
 
-		if !slices.Contains(DontStorageCmds, command) {
+		if !slices.Contains(DontStoreCmds, command) {
 			err = AOF.Write(value)
 			if err != nil {
 				log.Println("Error writing to AOF:", err)
