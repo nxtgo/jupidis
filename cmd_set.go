@@ -5,12 +5,17 @@ func SetCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
+	SETsMu.Lock()
+	defer SETsMu.Unlock()
+
 	key := args[0].bulk
 	value := args[1].bulk
 
-	SETsMu.Lock()
+	if !IsKeyAvailable(key, "string") {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
 	SETs[key] = value
-	SETsMu.Unlock()
 
 	return Value{typ: "string", str: "OK"}
 }

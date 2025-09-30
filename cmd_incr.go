@@ -12,6 +12,10 @@ func IncrCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
+	if !IsKeyAvailable(key, "string") {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
 	value, ok := SETs[key]
 	if !ok {
 		SETs[key] = "1"

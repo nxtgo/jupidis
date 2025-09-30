@@ -5,12 +5,16 @@ func GetCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
+	SETsMu.RLock()
+	defer SETsMu.RUnlock()
+
 	key := args[0].bulk
 
-	SETsMu.RLock()
-	value, ok := SETs[key]
-	SETsMu.RUnlock()
+	if !IsKeyAvailable(key, "string") {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
 
+	value, ok := SETs[key]
 	if !ok {
 		return Value{typ: "null", str: ""}
 	}

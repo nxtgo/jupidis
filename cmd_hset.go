@@ -9,8 +9,12 @@ func HSetCommand(args []Value) Value {
 	defer HSETsMu.Unlock()
 
 	key := args[0].bulk
-	hset, ok := HSETs[key]
 
+	if !IsKeyAvailable(key, "hash") {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
+	hset, ok := HSETs[key]
 	if !ok {
 		hset = map[string]string{}
 		HSETs[key] = hset

@@ -7,16 +7,20 @@ func IncrByCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
+	SETsMu.Lock()
+	defer SETsMu.Unlock()
+
 	key := args[0].bulk
 	strIncrement := args[1].bulk
+
+	if !IsKeyAvailable(key, "string") {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
 
 	increment, err := strconv.Atoi(strIncrement)
 	if err != nil {
 		return Value{typ: "error", str: "ERR value is not an integer or out of range"}
 	}
-
-	SETsMu.Lock()
-	defer SETsMu.Unlock()
 
 	value, ok := SETs[key]
 	if !ok {

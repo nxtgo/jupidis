@@ -5,12 +5,16 @@ func HGetAllCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
+	HSETsMu.RLock()
+	defer HSETsMu.RUnlock()
+
 	key := args[0].bulk
 
-	HSETsMu.RLock()
-	hget, ok := HSETs[key]
-	HSETsMu.RUnlock()
+	if !IsKeyAvailable(key, "hash") {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
 
+	hget, ok := HSETs[key]
 	if !ok {
 		return Value{typ: "null"}
 	}

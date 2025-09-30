@@ -5,11 +5,15 @@ func AppendCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
+	SETsMu.Lock()
+	defer SETsMu.Unlock()
+
 	key := args[0].bulk
 	appendValue := args[1].bulk
 
-	SETsMu.Lock()
-	defer SETsMu.Unlock()
+	if !IsKeyAvailable(key, "string") {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
 
 	value, ok := SETs[key]
 	if !ok {
