@@ -1,6 +1,6 @@
 package main
 
-func IsKeyAvailable(key string, t string) bool {
+func IsKeyAvailable(key string, t string) (string, bool) {
 	var typeOfKey string
 	if _, ok := SETs[key]; ok {
 		typeOfKey = "string"
@@ -8,5 +8,5 @@ func IsKeyAvailable(key string, t string) bool {
 		typeOfKey = "hash"
 	}
 
-	return typeOfKey == "" || typeOfKey == t
+	return typeOfKey, typeOfKey == "" || typeOfKey == t
 }

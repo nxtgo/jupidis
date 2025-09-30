@@ -11,7 +11,7 @@ func AppendCommand(args []Value) Value {
 	key := args[0].bulk
 	appendValue := args[1].bulk
 
-	if !IsKeyAvailable(key, "string") {
+	if _, available := IsKeyAvailable(key, "string"); !available {
 		return Value{typ: "error", str: "ERR key is not available"}
 	}
 

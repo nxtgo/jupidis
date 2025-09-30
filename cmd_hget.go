@@ -11,7 +11,7 @@ func HGetCommand(args []Value) Value {
 	key := args[0].bulk
 	field := args[1].bulk
 
-	if !IsKeyAvailable(key, "hash") {
+	if _, available := IsKeyAvailable(key, "hash"); !available {
 		return Value{typ: "error", str: "ERR key is not available"}
 	}
 
