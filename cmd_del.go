@@ -19,6 +19,10 @@ func DelCommand(args []Value) Value {
 			deletedCount++
 			delete(HSETs, key)
 			continue
+		} else if _, ok := SETs[key]; ok {
+			deletedCount++
+			delete(SETs, key)
+			continue
 		}
 	}
 
