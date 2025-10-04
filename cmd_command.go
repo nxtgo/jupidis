@@ -5,5 +5,5 @@ func CommandCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
-	return Value{typ: "string", str: args[0].bulk}
+	return Value{typ: "string", str: args[0].str}
 }

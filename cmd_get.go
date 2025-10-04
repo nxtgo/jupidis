@@ -8,7 +8,7 @@ func GetCommand(args []Value) Value {
 	VALUEsMu.RLock()
 	defer VALUEsMu.RUnlock()
 
-	key := args[0].bulk
+	key := args[0].str
 
 	if _, available := IsKeyAvailable(key, "string"); !available {
 		return Value{typ: "error", str: "ERR key is not available"}
@@ -16,7 +16,7 @@ func GetCommand(args []Value) Value {
 
 	value, ok := VALUEs[key]
 	if !ok {
-		return Value{typ: "null", str: ""}
+		return Value{typ: "null"}
 	}
 
 	return Value{typ: "string", str: value}

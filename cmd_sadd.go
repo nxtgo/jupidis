@@ -8,10 +8,10 @@ func SAddCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
-	key := args[0].bulk
+	key := args[0].str
 	var members []string
 	for _, arg := range args[1:] {
-		members = append(members, arg.bulk)
+		members = append(members, arg.str)
 	}
 
 	if _, available := IsKeyAvailable(key, "set"); !available {

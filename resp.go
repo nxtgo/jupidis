@@ -95,7 +95,7 @@ func (r *Resp) readBulk() (Value, error) {
 	if err != nil {
 		return v, fmt.Errorf("error reading bulk data: %v", err)
 	}
-	v.bulk = string(bulk)
+	v.str = string(bulk)
 	r.readLine()
 	return v, nil
 }

@@ -8,7 +8,7 @@ func SRemCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
-	key := args[0].bulk
+	key := args[0].str
 	members := args[1:]
 
 	if _, ok := SETs[key]; !ok {
@@ -17,8 +17,8 @@ func SRemCommand(args []Value) Value {
 
 	var count int
 	for _, member := range members {
-		if _, ok := SETs[key][member.bulk]; ok {
-			delete(SETs[key], member.bulk)
+		if _, ok := SETs[key][member.str]; ok {
+			delete(SETs[key], member.str)
 			count++
 		}
 	}

@@ -8,7 +8,7 @@ func SMembersCommand(args []Value) Value {
 	SETsMu.RLock()
 	defer SETsMu.RUnlock()
 
-	key := args[0].bulk
+	key := args[0].str
 	var value Value
 	value.typ = "array"
 	members, exists := SETs[key]

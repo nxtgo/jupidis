@@ -5,9 +5,9 @@ func SMoveCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
-	srcKey := args[0].bulk
-	destKey := args[1].bulk
-	member := args[2].bulk
+	srcKey := args[0].str
+	destKey := args[1].str
+	member := args[2].str
 
 	SETsMu.Lock()
 	defer SETsMu.Unlock()

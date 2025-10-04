@@ -7,7 +7,7 @@ func IncrCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
-	key := args[0].bulk
+	key := args[0].str
 
 	VALUEsMu.Lock()
 	defer VALUEsMu.Unlock()

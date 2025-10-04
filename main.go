@@ -59,7 +59,7 @@ func init() {
 	}
 
 	err = AOF.Read(func(value Value) {
-		command := strings.ToUpper(value.array[0].bulk)
+		command := strings.ToUpper(value.array[0].str)
 		args := value.array[1:]
 
 		handler, ok := Handlers[command]
@@ -144,7 +144,7 @@ func handle(conn net.Conn) {
 			continue
 		}
 
-		command := strings.ToUpper(value.array[0].bulk)
+		command := strings.ToUpper(value.array[0].str)
 		args := value.array[1:]
 
 		writer := NewWriter(conn)

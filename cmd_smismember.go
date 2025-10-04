@@ -8,11 +8,11 @@ func SMIsMemberCommand(args []Value) Value {
 	SETsMu.RLock()
 	defer SETsMu.RUnlock()
 
-	key := args[0].bulk
+	key := args[0].str
 	members := args[1:]
 	var exists []Value
 	for _, member := range members {
-		if _, ok := SETs[key][member.bulk]; ok {
+		if _, ok := SETs[key][member.str]; ok {
 			exists = append(exists, Value{typ: "integer", integer: 1})
 		} else {
 			exists = append(exists, Value{typ: "integer", integer: 0})

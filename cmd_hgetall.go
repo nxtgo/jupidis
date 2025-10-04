@@ -8,7 +8,7 @@ func HGetAllCommand(args []Value) Value {
 	HSETsMu.RLock()
 	defer HSETsMu.RUnlock()
 
-	key := args[0].bulk
+	key := args[0].str
 
 	if _, available := IsKeyAvailable(key, "hash"); !available {
 		return Value{typ: "error", str: "ERR key is not available"}

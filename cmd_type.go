@@ -8,7 +8,7 @@ func TypeCommand(args []Value) Value {
 	LockAllMu()
 	defer UnlockAllMu()
 
-	typeOfKey, _ := IsKeyAvailable(args[0].bulk, "")
+	typeOfKey, _ := IsKeyAvailable(args[0].str, "")
 	if typeOfKey == "" {
 		typeOfKey = "none"
 	}

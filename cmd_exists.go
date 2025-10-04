@@ -10,7 +10,7 @@ func ExistsCommand(args []Value) Value {
 
 	var count int
 	for _, arg := range args {
-		key := arg.bulk
+		key := arg.str
 		if _, ok := VALUEs[key]; ok {
 			count++
 		} else if _, ok := HSETs[key]; ok {

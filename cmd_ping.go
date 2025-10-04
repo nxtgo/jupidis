@@ -5,5 +5,5 @@ func PingCommand(args []Value) Value {
 		return Value{typ: "string", str: "PONG"}
 	}
 
-	return Value{typ: "string", str: args[0].bulk}
+	return Value{typ: "string", str: args[0].str}
 }

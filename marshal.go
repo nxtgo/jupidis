@@ -39,9 +39,9 @@ func (v Value) marshalString() []byte {
 func (v Value) marshalBulk() []byte {
 	var bytes []byte
 	bytes = append(bytes, BULK)
-	bytes = append(bytes, fmt.Appendf(nil, "%d", len(v.bulk))...)
+	bytes = append(bytes, fmt.Appendf(nil, "%d", len(v.str))...)
 	bytes = append(bytes, '\r', '\n')
-	bytes = append(bytes, v.bulk...)
+	bytes = append(bytes, v.str...)
 	bytes = append(bytes, '\r', '\n')
 	return bytes
 }

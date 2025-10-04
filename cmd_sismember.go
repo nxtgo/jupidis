@@ -8,8 +8,8 @@ func SIsMemberCommand(args []Value) Value {
 	SETsMu.RLock()
 	defer SETsMu.RUnlock()
 
-	key := args[0].bulk
-	member := args[1].bulk
+	key := args[0].str
+	member := args[1].str
 
 	_, ok := SETs[key][member]
 	if ok {

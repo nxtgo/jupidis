@@ -8,7 +8,7 @@ func HSetCommand(args []Value) Value {
 	HSETsMu.Lock()
 	defer HSETsMu.Unlock()
 
-	key := args[0].bulk
+	key := args[0].str
 
 	if _, available := IsKeyAvailable(key, "hash"); !available {
 		return Value{typ: "error", str: "ERR key is not available"}
@@ -21,8 +21,8 @@ func HSetCommand(args []Value) Value {
 	}
 
 	for i := 1; i < len(args); i += 2 {
-		field := args[i].bulk
-		value := args[i+1].bulk
+		field := args[i].str
+		value := args[i+1].str
 		hset[field] = value
 	}
 

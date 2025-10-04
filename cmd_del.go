@@ -10,7 +10,7 @@ func DelCommand(args []Value) Value {
 
 	var deletedCount int
 	for _, arg := range args {
-		key := arg.bulk
+		key := arg.str
 		if _, ok := VALUEs[key]; ok {
 			deletedCount++
 			delete(VALUEs, key)
