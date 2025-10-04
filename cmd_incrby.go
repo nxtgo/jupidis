@@ -7,8 +7,8 @@ func IncrByCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
-	SETsMu.Lock()
-	defer SETsMu.Unlock()
+	VALUEsMu.Lock()
+	defer VALUEsMu.Unlock()
 
 	key := args[0].bulk
 	strIncrement := args[1].bulk
@@ -22,9 +22,9 @@ func IncrByCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR value is not an integer or out of range"}
 	}
 
-	value, ok := SETs[key]
+	value, ok := VALUEs[key]
 	if !ok {
-		SETs[key] = strconv.Itoa(increment)
+		VALUEs[key] = strconv.Itoa(increment)
 		return Value{typ: "integer", integer: increment}
 	}
 
@@ -34,6 +34,6 @@ func IncrByCommand(args []Value) Value {
 	}
 
 	intValue += increment
-	SETs[key] = strconv.Itoa(intValue)
+	VALUEs[key] = strconv.Itoa(intValue)
 	return Value{typ: "integer", integer: intValue}
 }

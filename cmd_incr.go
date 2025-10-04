@@ -9,16 +9,16 @@ func IncrCommand(args []Value) Value {
 
 	key := args[0].bulk
 
-	SETsMu.Lock()
-	defer SETsMu.Unlock()
+	VALUEsMu.Lock()
+	defer VALUEsMu.Unlock()
 
 	if _, available := IsKeyAvailable(key, "string"); !available {
 		return Value{typ: "error", str: "ERR key is not available"}
 	}
 
-	value, ok := SETs[key]
+	value, ok := VALUEs[key]
 	if !ok {
-		SETs[key] = "1"
+		VALUEs[key] = "1"
 		return Value{typ: "integer", integer: 1}
 	}
 
@@ -28,6 +28,6 @@ func IncrCommand(args []Value) Value {
 	}
 
 	intValue++
-	SETs[key] = strconv.Itoa(intValue)
+	VALUEs[key] = strconv.Itoa(intValue)
 	return Value{typ: "integer", integer: intValue}
 }

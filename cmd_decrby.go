@@ -10,8 +10,8 @@ func DecrByCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
 	}
 
-	SETsMu.Lock()
-	defer SETsMu.Unlock()
+	VALUEsMu.Lock()
+	defer VALUEsMu.Unlock()
 
 	key := args[0].bulk
 	strDecrement := args[1].bulk
@@ -25,9 +25,9 @@ func DecrByCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR value is not an integer or out of range"}
 	}
 
-	value, ok := SETs[key]
+	value, ok := VALUEs[key]
 	if !ok {
-		SETs[key] = fmt.Sprintf("%d", -decrement)
+		VALUEs[key] = fmt.Sprintf("%d", -decrement)
 		return Value{typ: "integer", integer: -decrement}
 	}
 
@@ -37,6 +37,6 @@ func DecrByCommand(args []Value) Value {
 	}
 
 	intValue -= decrement
-	SETs[key] = strconv.Itoa(intValue)
+	VALUEs[key] = strconv.Itoa(intValue)
 	return Value{typ: "integer", integer: intValue}
 }

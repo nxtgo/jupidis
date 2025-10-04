@@ -5,15 +5,13 @@ func ExistsCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR wrong number of arguments for 'exists' command"}
 	}
 
-	SETsMu.RLock()
-	defer SETsMu.RUnlock()
-	HSETsMu.RLock()
-	defer HSETsMu.RUnlock()
+	LockAllMu()
+	defer UnlockAllMu()
 
 	var count int
 	for _, arg := range args {
 		key := arg.bulk
-		if _, ok := SETs[key]; ok {
+		if _, ok := VALUEs[key]; ok {
 			count++
 		} else if _, ok := HSETs[key]; ok {
 			count++

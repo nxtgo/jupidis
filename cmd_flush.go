@@ -1,12 +1,10 @@
 package main
 
 func FlushCommand(args []Value) Value {
-	SETsMu.Lock()
-	HSETsMu.Lock()
-	defer SETsMu.Unlock()
-	defer HSETsMu.Unlock()
+	LockAllMu()
+	defer UnlockAllMu()
 
-	clear(SETs)
+	clear(VALUEs)
 	clear(HSETs)
 
 	err := AOF.Reset()

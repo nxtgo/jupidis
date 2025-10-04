@@ -12,28 +12,39 @@ import (
 
 var AOF *Aof
 
-var SETs = map[string]string{}
-var SETsMu = &sync.RWMutex{}
+var VALUEs = map[string]string{}
+var VALUEsMu = &sync.RWMutex{}
 
 var HSETs = map[string]map[string]string{}
 var HSETsMu = &sync.RWMutex{}
 
+var SETs = map[string]map[string]struct{}{}
+var SETsMu = &sync.RWMutex{}
+
 var Handlers = map[string]func(args []Value) Value{
-	"APPEND":  AppendCommand,
-	"COMMAND": CommandCommand,
-	"DECR":    DecrCommand,
-	"DECRBY":  DecrByCommand,
-	"DEL":     DelCommand,
-	"EXISTS":  ExistsCommand,
-	"FLUSH":   FlushCommand,
-	"GET":     GetCommand,
-	"HGET":    HGetCommand,
-	"HGETALL": HGetAllCommand,
-	"HSET":    HSetCommand,
-	"INCR":    IncrCommand,
-	"INCRBY":  IncrByCommand,
-	"PING":    PingCommand,
-	"SET":     SetCommand,
+	"APPEND":     AppendCommand,
+	"COMMAND":    CommandCommand,
+	"DECR":       DecrCommand,
+	"DECRBY":     DecrByCommand,
+	"DEL":        DelCommand,
+	"EXISTS":     ExistsCommand,
+	"FLUSH":      FlushCommand,
+	"GET":        GetCommand,
+	"HGET":       HGetCommand,
+	"HGETALL":    HGetAllCommand,
+	"HSET":       HSetCommand,
+	"INCR":       IncrCommand,
+	"INCRBY":     IncrByCommand,
+	"PING":       PingCommand,
+	"SADD":       SAddCommand,
+	"SCARD":      SCardCommand,
+	"SET":        SetCommand,
+	"SISMEMBER":  SIsMemberCommand,
+	"SMEMBERS":   SMembersCommand,
+	"SMISMEMBER": SMIsMemberCommand,
+	"SMOVE":      SMoveCommand,
+	"SREM":       SRemCommand,
+	"TYPE":       TypeCommand,
 }
 
 var aofFilePath = flag.String("aof", "database.aof", "Path to the AOF file")
@@ -87,21 +98,29 @@ func main() {
 }
 
 var DontStoreCmds = []string{
-	"APPEND",
-	// "COMMAND",
-	"DECR",
-	"DECRBY",
-	"DEL",
-	// "EXISTS",
-	// "FLUSH",
-	// "GET",
-	// "HGET",
-	// "HGETALL",
-	"HSET",
-	"INCR",
-	"INCRBY",
-	// "PING",
-	"SET",
+	// "APPEND",
+	"COMMAND",
+	// "DECR",
+	// "DECRBY",
+	// "DEL",
+	"EXISTS",
+	"FLUSH",
+	"GET",
+	"HGET",
+	"HGETALL",
+	// "HSET",
+	// "INCR",
+	// "INCRBY",
+	"PING",
+	// "SADD",
+	"SCARD",
+	// "SET",
+	"SISMEMBER",
+	"SMEMBERS",
+	"SMISMEMBER",
+	// "SMOVE",
+	// "SREM",
+	"TYPE",
 }
 
 func handle(conn net.Conn) {
