@@ -9,23 +9,19 @@ func SUnionStoreCommand(args []Value) Value {
 	defer SETsMu.Unlock()
 
 	destination := args[0].str
+	SETs[destination] = make(map[string]struct{})
 
+	var values []string
 	seen := make(map[string]struct{})
 	for _, arg := range args[1:] {
 		for member := range SETs[arg.str] {
-			seen[member] = struct{}{}
+			if _, ok := seen[member]; !ok {
+				seen[member] = struct{}{}
+				values = append(values, member)
+				SETs[destination][member] = struct{}{}
+			}
 		}
 	}
 
-	var values []string
-	for member := range seen {
-		values = append(values, member)
-	}
-
-	SETs[destination] = make(map[string]struct{})
-
-	for _, member := range values {
-		SETs[destination][member] = struct{}{}
-	}
 	return Value{typ: "integer", integer: len(values)}
 }

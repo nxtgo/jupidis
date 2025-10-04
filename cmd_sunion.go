@@ -12,11 +12,11 @@ func SUnionCommand(args []Value) Value {
 	seen := make(map[string]struct{})
 	for _, arg := range args {
 		for member := range SETs[arg.str] {
-			seen[member] = struct{}{}
+			if _, ok := seen[member]; !ok {
+				seen[member] = struct{}{}
+				values = append(values, Value{typ: "string", str: member})
+			}
 		}
-	}
-	for member := range seen {
-		values = append(values, Value{typ: "string", str: member})
 	}
 	return Value{typ: "array", array: values}
 }
