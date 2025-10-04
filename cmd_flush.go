@@ -6,6 +6,7 @@ func FlushCommand(args []Value) Value {
 
 	clear(VALUEs)
 	clear(HSETs)
+	clear(SETs)
 
 	err := AOF.Reset()
 	if err != nil {
