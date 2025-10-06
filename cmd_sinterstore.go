@@ -25,7 +25,7 @@ func SInterStoreCommand(args []Value) Value {
 		return Value{typ: "array", array: []Value{}}
 	}
 
-	var values []string
+	SETs[destination] = make(map[string]struct{})
 	for member := range SETs[biggestSet] {
 		var found = true
 		for _, arg := range args[1:] {
@@ -38,14 +38,9 @@ func SInterStoreCommand(args []Value) Value {
 			}
 		}
 		if found {
-			values = append(values, member)
+			SETs[destination][member] = struct{}{}
 		}
 	}
 
-	SETs[destination] = make(map[string]struct{})
-	for _, member := range values {
-		SETs[destination][member] = struct{}{}
-	}
-
-	return Value{typ: "integer", integer: len(values)}
+	return Value{typ: "integer", integer: len(SETs[destination])}
 }

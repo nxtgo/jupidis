@@ -25,7 +25,7 @@ func SDiffStoreCommand(args []Value) Value {
 		return Value{typ: "array", array: []Value{}}
 	}
 
-	var members []string
+	SETs[destination] = make(map[string]struct{})
 	for member := range SETs[biggestSet] {
 		var found bool
 		for _, arg := range args[1:] {
@@ -38,14 +38,9 @@ func SDiffStoreCommand(args []Value) Value {
 			}
 		}
 		if !found {
-			members = append(members, member)
+			SETs[destination][member] = struct{}{}
 		}
 	}
 
-	SETs[destination] = make(map[string]struct{})
-	for _, member := range members {
-		SETs[destination][member] = struct{}{}
-	}
-
-	return Value{typ: "integer", integer: len(members)}
+	return Value{typ: "integer", integer: len(SETs[destination])}
 }
