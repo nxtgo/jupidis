@@ -1,5 +1,7 @@
 package main
 
+import "slices"
+
 func SInterCommand(args []Value) Value {
 	if len(args) < 2 {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
@@ -24,18 +26,20 @@ func SInterCommand(args []Value) Value {
 	}
 
 	var values []Value
-	for member := range SETs[biggestSet] {
+	for _, member := range SETs[biggestSet] {
 		var found = true
 		for _, arg := range args {
 			if arg.str == biggestSet {
 				continue
 			}
-			if _, ok := SETs[arg.str][member]; !ok {
+			if !slices.Contains(SETs[arg.str], member) {
 				found = false
 				break
 			}
 		}
-		if found {
+		if found && !slices.ContainsFunc(values, func(v Value) bool {
+			return v.str == member
+		}) {
 			values = append(values, Value{typ: "string", str: member})
 		}
 	}

@@ -1,5 +1,7 @@
 package main
 
+import "slices"
+
 func SUnionCommand(args []Value) Value {
 	if len(args) < 2 {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
@@ -9,11 +11,11 @@ func SUnionCommand(args []Value) Value {
 	defer SETsMu.Unlock()
 
 	var values []Value
-	seen := make(map[string]struct{})
 	for _, arg := range args {
-		for member := range SETs[arg.str] {
-			if _, ok := seen[member]; !ok {
-				seen[member] = struct{}{}
+		for _, member := range SETs[arg.str] {
+			if !slices.ContainsFunc(values, func(v Value) bool {
+				return v.str == member
+			}) {
 				values = append(values, Value{typ: "string", str: member})
 			}
 		}

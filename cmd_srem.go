@@ -1,5 +1,7 @@
 package main
 
+import "slices"
+
 func SRemCommand(args []Value) Value {
 	if len(args) < 2 {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
@@ -17,8 +19,9 @@ func SRemCommand(args []Value) Value {
 
 	var count int
 	for _, member := range members {
-		if _, ok := SETs[key][member.str]; ok {
-			delete(SETs[key], member.str)
+		if slices.Contains(SETs[key], member.str) {
+			index := slices.Index(SETs[key], member.str)
+			SETs[key] = slices.Delete(SETs[key], index, index+1)
 			count++
 		}
 	}

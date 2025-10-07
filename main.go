@@ -18,7 +18,7 @@ var VALUEsMu = &sync.RWMutex{}
 var HSETs = map[string]map[string]string{}
 var HSETsMu = &sync.RWMutex{}
 
-var SETs = map[string]map[string]struct{}{}
+var SETs = map[string][]string{}
 var SETsMu = &sync.RWMutex{}
 
 var Handlers = map[string]func(args []Value) Value{

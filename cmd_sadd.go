@@ -1,5 +1,7 @@
 package main
 
+import "slices"
+
 func SAddCommand(args []Value) Value {
 	if len(args) < 2 {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
@@ -18,14 +20,10 @@ func SAddCommand(args []Value) Value {
 		return Value{typ: "error", str: "ERR key is not available"}
 	}
 
-	if SETs[key] == nil {
-		SETs[key] = make(map[string]struct{})
-	}
-
 	var count int
 	for _, member := range members {
-		if _, exists := SETs[key][member]; !exists {
-			SETs[key][member] = struct{}{}
+		if !slices.Contains(SETs[key], member) {
+			SETs[key] = append(SETs[key], member)
 			count++
 		}
 	}

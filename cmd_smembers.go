@@ -9,15 +9,13 @@ func SMembersCommand(args []Value) Value {
 	defer SETsMu.RUnlock()
 
 	key := args[0].str
+
 	var value Value
 	value.typ = "array"
-	members, exists := SETs[key]
-	if !exists {
-		return value
-	}
 
-	for member := range members {
+	for _, member := range SETs[key] {
 		value.array = append(value.array, Value{typ: "string", str: member})
 	}
+
 	return value
 }

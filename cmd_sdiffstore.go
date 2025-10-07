@@ -1,5 +1,7 @@
 package main
 
+import "slices"
+
 func SDiffStoreCommand(args []Value) Value {
 	if len(args) < 3 {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
@@ -25,20 +27,20 @@ func SDiffStoreCommand(args []Value) Value {
 		return Value{typ: "array", array: []Value{}}
 	}
 
-	SETs[destination] = make(map[string]struct{})
-	for member := range SETs[biggestSet] {
+	SETs[destination] = []string{}
+	for _, member := range SETs[biggestSet] {
 		var found bool
 		for _, arg := range args[1:] {
 			if arg.str == biggestSet {
 				continue
 			}
-			if _, ok := SETs[arg.str][member]; ok {
+			if slices.Contains(SETs[arg.str], member) {
 				found = true
 				break
 			}
 		}
-		if !found {
-			SETs[destination][member] = struct{}{}
+		if !found && !slices.Contains(SETs[destination], member) {
+			SETs[destination] = append(SETs[destination], member)
 		}
 	}
 

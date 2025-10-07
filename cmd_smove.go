@@ -1,5 +1,7 @@
 package main
 
+import "slices"
+
 func SMoveCommand(args []Value) Value {
 	if len(args) != 3 {
 		return Value{typ: "error", str: "ERR wrong number of arguments"}
@@ -12,19 +14,23 @@ func SMoveCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
-	if _, ok := SETs[srcKey][member]; !ok {
+	if !slices.Contains(SETs[srcKey], member) {
 		return Value{typ: "integer", integer: 0}
 	}
 
-	delete(SETs[srcKey], member)
-	if SETs[srcKey] == nil {
+	indexToRemove := slices.IndexFunc(SETs[srcKey], func(s string) bool {
+		return s == member
+	})
+	SETs[srcKey] = append(SETs[srcKey][:indexToRemove], SETs[srcKey][indexToRemove+1:]...)
+
+	if len(SETs[srcKey]) == 0 {
 		delete(SETs, srcKey)
 	}
 
 	if SETs[destKey] == nil {
-		SETs[destKey] = make(map[string]struct{})
+		SETs[destKey] = []string{}
 	}
-	SETs[destKey][member] = struct{}{}
+	SETs[destKey] = append(SETs[destKey], member)
 
 	return Value{typ: "integer", integer: 1}
 }
