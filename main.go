@@ -64,6 +64,7 @@ var Handlers = map[string]CommandValue{
 
 var aofFilePath = flag.String("aof", "database.aof", "Path to the AOF file")
 var port = flag.Int("port", 6379, "Port to listen on")
+var debugMode = flag.Bool("debug", false, "Enable debug mode")
 
 func init() {
 	flag.Parse()
@@ -172,11 +173,17 @@ func handle(conn net.Conn) {
 
 		handler, ok := Handlers[command]
 		if !ok {
+			if *debugMode {
+				log.Println("Unknown command:", command)
+			}
 			writer.Write(Value{typ: "string", str: fmt.Sprintf("ERR unknown command '%s'", command)})
 			continue
 		}
 
 		if !handler.Check(args) {
+			if *debugMode {
+				log.Println("Wrong number of arguments for command:", command)
+			}
 			writer.Write(Value{typ: "string", str: fmt.Sprintf("ERR wrong number of arguments for '%s' command", command)})
 			continue
 		}
@@ -186,6 +193,10 @@ func handle(conn net.Conn) {
 			if err != nil {
 				log.Println("Error writing to AOF:", err)
 			}
+		}
+
+		if *debugMode {
+			log.Printf("Executing command: %s with args: %v\n", command, args)
 		}
 
 		result := handler.Run(args)
