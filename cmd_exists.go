@@ -15,6 +15,10 @@ func ExistsCommand(args []Value) Value {
 			count++
 		} else if _, ok := HSETs[key]; ok {
 			count++
+		} else if _, ok := SETs[key]; ok {
+			count++
+		} else if _, ok := LISTs[key]; ok {
+			count++
 		}
 	}
 

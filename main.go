@@ -21,6 +21,9 @@ var HSETsMu = &sync.RWMutex{}
 var SETs = map[string][]string{}
 var SETsMu = &sync.RWMutex{}
 
+var LISTs = map[string][]string{}
+var LISTsMu = &sync.RWMutex{}
+
 type CommandValue struct {
 	Run   func(args []Value) Value
 	Check func(args []Value) bool
@@ -40,6 +43,7 @@ var Handlers = map[string]CommandValue{
 	"HSET":        {Run: HSetCommand, Check: HSetCommandCheck},
 	"INCR":        {Run: IncrCommand, Check: IncrCommandCheck},
 	"INCRBY":      {Run: IncrByCommand, Check: IncrByCommandCheck},
+	"LPUSH":       {Run: LPushCommand, Check: LPushCommandCheck},
 	"PING":        {Run: PingCommand, Check: PingCommandCheck},
 	"SADD":        {Run: SAddCommand, Check: SAddCommandCheck},
 	"SCARD":       {Run: SCardCommand, Check: SCardCommandCheck},
@@ -59,6 +63,7 @@ var Handlers = map[string]CommandValue{
 }
 
 var aofFilePath = flag.String("aof", "database.aof", "Path to the AOF file")
+var port = flag.Int("port", 6379, "Port to listen on")
 
 func init() {
 	flag.Parse()
@@ -94,13 +99,13 @@ func init() {
 func main() {
 	defer AOF.Close()
 
-	l, err := net.Listen("tcp", ":6379")
+	l, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		log.Println("Error starting server:", err)
 		return
 	}
 
-	log.Println("Listening on port :6379")
+	log.Println("Listening on port :", *port)
 
 	for {
 		conn, err := l.Accept()

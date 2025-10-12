@@ -11,6 +11,10 @@ func SUnionStoreCommand(args []Value) Value {
 	defer SETsMu.Unlock()
 
 	destination := args[0].str
+	if _, available := IsKeyAvailable(destination, "set"); !available {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
 	SETs[destination] = []string{}
 
 	for _, arg := range args[1:] {

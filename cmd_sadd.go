@@ -11,13 +11,13 @@ func SAddCommand(args []Value) Value {
 	defer SETsMu.Unlock()
 
 	key := args[0].str
-	var members []string
-	for _, arg := range args[1:] {
-		members = append(members, arg.str)
-	}
-
 	if _, available := IsKeyAvailable(key, "set"); !available {
 		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
+	var members = make([]string, 0, len(args)-1)
+	for _, arg := range args[1:] {
+		members = append(members, arg.str)
 	}
 
 	var count int

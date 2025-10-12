@@ -9,5 +9,10 @@ func SCardCommand(args []Value) Value {
 	defer SETsMu.RUnlock()
 
 	key := args[0].str
+
+	if _, available := IsKeyAvailable(key, "set"); !available {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
 	return Value{typ: "integer", integer: len(SETs[key])}
 }

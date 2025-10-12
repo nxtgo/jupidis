@@ -23,6 +23,10 @@ func DelCommand(args []Value) Value {
 			deletedCount++
 			delete(SETs, key)
 			continue
+		} else if _, ok := LISTs[key]; ok {
+			deletedCount++
+			delete(LISTs, key)
+			continue
 		}
 	}
 

@@ -9,6 +9,8 @@ func IsKeyAvailable(key string, t string) (string, bool) {
 		typeOfKey = "hash"
 	} else if _, ok := SETs[key]; ok {
 		typeOfKey = "set"
+	} else if _, ok := LISTs[key]; ok {
+		typeOfKey = "list"
 	}
 
 	return typeOfKey, typeOfKey == "" || typeOfKey == t

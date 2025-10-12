@@ -14,6 +14,13 @@ func SMoveCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 
+	if _, available := IsKeyAvailable(srcKey, "set"); !available {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+	if _, available := IsKeyAvailable(destKey, "set"); !available {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
 	if !slices.Contains(SETs[srcKey], member) {
 		return Value{typ: "integer", integer: 0}
 	}

@@ -13,6 +13,10 @@ func SRemCommand(args []Value) Value {
 	key := args[0].str
 	members := args[1:]
 
+	if _, available := IsKeyAvailable(key, "set"); !available {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
 	if _, ok := SETs[key]; !ok {
 		return Value{typ: "integer", integer: 0}
 	}

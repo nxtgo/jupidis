@@ -12,6 +12,10 @@ func SMIsMemberCommand(args []Value) Value {
 
 	key := args[0].str
 	members := args[1:]
+	if _, available := IsKeyAvailable(key, "set"); !available {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
+
 	var exists []Value
 	for _, member := range members {
 		if slices.Contains(SETs[key], member.str) {

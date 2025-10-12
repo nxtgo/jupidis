@@ -9,6 +9,9 @@ func SMembersCommand(args []Value) Value {
 	defer SETsMu.RUnlock()
 
 	key := args[0].str
+	if _, available := IsKeyAvailable(key, "set"); !available {
+		return Value{typ: "error", str: "ERR key is not available"}
+	}
 
 	var value Value
 	value.typ = "array"
