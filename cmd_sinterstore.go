@@ -1,9 +1,14 @@
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
-func SInterStoreCommandCheck(args []Value) bool {
-	return len(args) >= 3
+func SInterStoreCommandCheck(args []Value) error {
+	if len(args) < 3 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SInterStoreCommand(args []Value) Value {

@@ -1,7 +1,10 @@
 package main
 
-func HSetCommandCheck(args []Value) bool {
-	return (len(args)-1)%2 == 0 && len(args) >= 3
+func HSetCommandCheck(args []Value) error {
+	if (len(args)-1)%2 != 0 || len(args) < 3 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func HSetCommand(args []Value) Value {

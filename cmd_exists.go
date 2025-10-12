@@ -1,7 +1,10 @@
 package main
 
-func ExistsCommandCheck(args []Value) bool {
-	return len(args) > 0
+func ExistsCommandCheck(args []Value) error {
+	if len(args) == 0 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func ExistsCommand(args []Value) Value {

@@ -1,7 +1,10 @@
 package main
 
-func PingCommandCheck(args []Value) bool {
-	return len(args) <= 1
+func PingCommandCheck(args []Value) error {
+	if len(args) > 1 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func PingCommand(args []Value) Value {

@@ -1,9 +1,14 @@
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
-func SRemCommandCheck(args []Value) bool {
-	return len(args) >= 2
+func SRemCommandCheck(args []Value) error {
+	if len(args) < 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SRemCommand(args []Value) Value {

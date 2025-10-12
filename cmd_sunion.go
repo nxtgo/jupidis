@@ -1,9 +1,14 @@
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
-func SUnionCommandCheck(args []Value) bool {
-	return len(args) >= 2
+func SUnionCommandCheck(args []Value) error {
+	if len(args) < 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SUnionCommand(args []Value) Value {

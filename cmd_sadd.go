@@ -1,9 +1,14 @@
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
-func SAddCommandCheck(args []Value) bool {
-	return len(args) >= 2
+func SAddCommandCheck(args []Value) error {
+	if len(args) < 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SAddCommand(args []Value) Value {

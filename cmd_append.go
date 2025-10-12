@@ -1,7 +1,10 @@
 package main
 
-func AppendCommandCheck(args []Value) bool {
-	return len(args) == 2
+func AppendCommandCheck(args []Value) error {
+	if len(args) != 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func AppendCommand(args []Value) Value {

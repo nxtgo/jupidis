@@ -1,7 +1,10 @@
 package main
 
-func TypeCommandCheck(args []Value) bool {
-	return len(args) == 1
+func TypeCommandCheck(args []Value) error {
+	if len(args) != 1 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func TypeCommand(args []Value) Value {

@@ -1,9 +1,14 @@
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
-func SMoveCommandCheck(args []Value) bool {
-	return len(args) == 3
+func SMoveCommandCheck(args []Value) error {
+	if len(args) != 3 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SMoveCommand(args []Value) Value {

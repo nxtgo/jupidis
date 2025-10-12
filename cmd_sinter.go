@@ -1,9 +1,14 @@
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
-func SInterCommandCheck(args []Value) bool {
-	return len(args) >= 2
+func SInterCommandCheck(args []Value) error {
+	if len(args) < 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SInterCommand(args []Value) Value {

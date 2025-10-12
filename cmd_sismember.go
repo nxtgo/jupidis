@@ -1,9 +1,14 @@
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
-func SIsMemberCommandCheck(args []Value) bool {
-	return len(args) == 2
+func SIsMemberCommandCheck(args []Value) error {
+	if len(args) != 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SIsMemberCommand(args []Value) Value {

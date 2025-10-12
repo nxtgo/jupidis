@@ -1,7 +1,7 @@
 package main
 
-func FlushCommandCheck(args []Value) bool {
-	return true
+func FlushCommandCheck(args []Value) error {
+	return nil
 }
 
 func FlushCommand(args []Value) Value {

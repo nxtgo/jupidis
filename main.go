@@ -26,7 +26,7 @@ var LISTsMu = &sync.RWMutex{}
 
 type CommandValue struct {
 	Run   func(args []Value) Value
-	Check func(args []Value) bool
+	Check func(args []Value) error
 }
 
 var Handlers = map[string]CommandValue{
@@ -85,9 +85,8 @@ func init() {
 			log.Println("Invalid command:", command)
 			return
 		}
-		if !handler.Check(args) {
-			// this should never happen
-			log.Println("Invalid arguments for command:", command)
+		if err := handler.Check(args); err != nil {
+			log.Println("Error checking command from AOF:", err)
 			return
 		}
 		handler.Run(args)
@@ -180,11 +179,11 @@ func handle(conn net.Conn) {
 			continue
 		}
 
-		if !handler.Check(args) {
+		if err := handler.Check(args); err != nil {
 			if *debugMode {
-				log.Println("Wrong number of arguments for command:", command)
+				log.Println("Error checking command:", err, command, args)
 			}
-			writer.Write(Value{typ: "string", str: fmt.Sprintf("ERR wrong number of arguments for '%s' command", command)})
+			writer.Write(Value{typ: "string", str: fmt.Sprintf("ERR %v", err)})
 			continue
 		}
 

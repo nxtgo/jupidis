@@ -1,7 +1,10 @@
 package main
 
-func HGetAllCommandCheck(args []Value) bool {
-	return len(args) == 1
+func HGetAllCommandCheck(args []Value) error {
+	if len(args) != 1 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func HGetAllCommand(args []Value) Value {

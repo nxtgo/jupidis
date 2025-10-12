@@ -1,9 +1,14 @@
 package main
 
-import "strconv"
+import (
+	"strconv"
+)
 
-func IncrByCommandCheck(args []Value) bool {
-	return len(args) == 2
+func IncrByCommandCheck(args []Value) error {
+	if len(args) != 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func IncrByCommand(args []Value) Value {

@@ -1,7 +1,10 @@
 package main
 
-func DelCommandCheck(args []Value) bool {
-	return len(args) > 0
+func DelCommandCheck(args []Value) error {
+	if len(args) == 0 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func DelCommand(args []Value) Value {

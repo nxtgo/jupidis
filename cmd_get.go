@@ -1,7 +1,10 @@
 package main
 
-func GetCommandCheck(args []Value) bool {
-	return len(args) == 1
+func GetCommandCheck(args []Value) error {
+	if len(args) != 1 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func GetCommand(args []Value) Value {

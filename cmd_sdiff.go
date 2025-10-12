@@ -1,9 +1,14 @@
 package main
 
-import "slices"
+import (
+	"slices"
+)
 
-func SDiffCommandCheck(args []Value) bool {
-	return len(args) >= 2
+func SDiffCommandCheck(args []Value) error {
+	if len(args) < 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SDiffCommand(args []Value) Value {

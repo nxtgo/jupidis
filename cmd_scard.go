@@ -1,7 +1,10 @@
 package main
 
-func SCardCommandCheck(args []Value) bool {
-	return len(args) == 1
+func SCardCommandCheck(args []Value) error {
+	if len(args) != 1 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func SCardCommand(args []Value) Value {

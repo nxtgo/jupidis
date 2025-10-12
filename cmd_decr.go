@@ -1,9 +1,14 @@
 package main
 
-import "strconv"
+import (
+	"strconv"
+)
 
-func DecrCommandCheck(args []Value) bool {
-	return len(args) == 1
+func DecrCommandCheck(args []Value) error {
+	if len(args) != 1 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func DecrCommand(args []Value) Value {

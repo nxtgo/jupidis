@@ -5,8 +5,11 @@ import (
 	"strconv"
 )
 
-func DecrByCommandCheck(args []Value) bool {
-	return len(args) == 2
+func DecrByCommandCheck(args []Value) error {
+	if len(args) != 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func DecrByCommand(args []Value) Value {

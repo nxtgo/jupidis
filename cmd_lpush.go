@@ -1,7 +1,10 @@
 package main
 
-func LPushCommandCheck(args []Value) bool {
-	return len(args) >= 2
+func LPushCommandCheck(args []Value) error {
+	if len(args) < 2 {
+		return ErrWrongNumberOfArguments
+	}
+	return nil
 }
 
 func LPushCommand(args []Value) Value {
