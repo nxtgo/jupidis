@@ -1,10 +1,10 @@
 package main
 
-func SetCommand(args []Value) Value {
-	if len(args) != 2 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SetCommandCheck(args []Value) bool {
+	return len(args) == 2
+}
 
+func SetCommand(args []Value) Value {
 	VALUEsMu.Lock()
 	defer VALUEsMu.Unlock()
 

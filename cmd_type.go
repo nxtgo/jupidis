@@ -1,10 +1,10 @@
 package main
 
-func TypeCommand(args []Value) Value {
-	if len(args) != 1 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func TypeCommandCheck(args []Value) bool {
+	return len(args) == 1
+}
 
+func TypeCommand(args []Value) Value {
 	LockAllMu()
 	defer UnlockAllMu()
 

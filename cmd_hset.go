@@ -1,10 +1,10 @@
 package main
 
-func HSetCommand(args []Value) Value {
-	if (len(args)-1)%2 != 0 || len(args) < 3 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func HSetCommandCheck(args []Value) bool {
+	return (len(args)-1)%2 == 0 && len(args) >= 3
+}
 
+func HSetCommand(args []Value) Value {
 	HSETsMu.Lock()
 	defer HSETsMu.Unlock()
 

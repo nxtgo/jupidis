@@ -1,10 +1,10 @@
 package main
 
-func DelCommand(args []Value) Value {
-	if len(args) < 1 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func DelCommandCheck(args []Value) bool {
+	return len(args) > 0
+}
 
+func DelCommand(args []Value) Value {
 	LockAllMu()
 	defer UnlockAllMu()
 

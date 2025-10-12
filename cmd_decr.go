@@ -2,11 +2,11 @@ package main
 
 import "strconv"
 
-func DecrCommand(args []Value) Value {
-	if len(args) != 1 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func DecrCommandCheck(args []Value) bool {
+	return len(args) == 1
+}
 
+func DecrCommand(args []Value) Value {
 	VALUEsMu.Lock()
 	defer VALUEsMu.Unlock()
 

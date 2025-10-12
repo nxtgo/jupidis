@@ -2,11 +2,11 @@ package main
 
 import "slices"
 
-func SDiffStoreCommand(args []Value) Value {
-	if len(args) < 3 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SDiffStoreCommandCheck(args []Value) bool {
+	return len(args) >= 3
+}
 
+func SDiffStoreCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 

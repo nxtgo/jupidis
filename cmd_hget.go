@@ -1,10 +1,10 @@
 package main
 
-func HGetCommand(args []Value) Value {
-	if len(args) != 2 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func HGetCommandCheck(args []Value) bool {
+	return len(args) == 2
+}
 
+func HGetCommand(args []Value) Value {
 	HSETsMu.RLock()
 	defer HSETsMu.RUnlock()
 

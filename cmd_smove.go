@@ -2,11 +2,11 @@ package main
 
 import "slices"
 
-func SMoveCommand(args []Value) Value {
-	if len(args) != 3 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SMoveCommandCheck(args []Value) bool {
+	return len(args) == 3
+}
 
+func SMoveCommand(args []Value) Value {
 	srcKey := args[0].str
 	destKey := args[1].str
 	member := args[2].str

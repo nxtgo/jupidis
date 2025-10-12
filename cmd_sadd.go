@@ -2,11 +2,11 @@ package main
 
 import "slices"
 
-func SAddCommand(args []Value) Value {
-	if len(args) < 2 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SAddCommandCheck(args []Value) bool {
+	return len(args) >= 2
+}
 
+func SAddCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 

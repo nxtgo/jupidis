@@ -1,9 +1,9 @@
 package main
 
-func CommandCommand(args []Value) Value {
-	if len(args) != 1 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func CommandCommandCheck(args []Value) bool {
+	return len(args) == 1
+}
 
+func CommandCommand(args []Value) Value {
 	return Value{typ: "string", str: args[0].str}
 }

@@ -2,11 +2,11 @@ package main
 
 import "slices"
 
-func SRemCommand(args []Value) Value {
-	if len(args) < 2 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SRemCommandCheck(args []Value) bool {
+	return len(args) >= 2
+}
 
+func SRemCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 

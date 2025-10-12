@@ -1,10 +1,10 @@
 package main
 
-func ExistsCommand(args []Value) Value {
-	if len(args) < 1 {
-		return Value{typ: "error", str: "ERR wrong number of arguments for 'exists' command"}
-	}
+func ExistsCommandCheck(args []Value) bool {
+	return len(args) > 0
+}
 
+func ExistsCommand(args []Value) Value {
 	LockAllMu()
 	defer UnlockAllMu()
 

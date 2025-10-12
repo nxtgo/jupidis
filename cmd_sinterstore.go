@@ -2,11 +2,11 @@ package main
 
 import "slices"
 
-func SInterStoreCommand(args []Value) Value {
-	if len(args) < 3 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SInterStoreCommandCheck(args []Value) bool {
+	return len(args) >= 3
+}
 
+func SInterStoreCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 

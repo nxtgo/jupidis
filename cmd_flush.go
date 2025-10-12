@@ -1,5 +1,9 @@
 package main
 
+func FlushCommandCheck(args []Value) bool {
+	return true
+}
+
 func FlushCommand(args []Value) Value {
 	LockAllMu()
 	defer UnlockAllMu()

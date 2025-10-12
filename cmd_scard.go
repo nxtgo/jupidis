@@ -1,10 +1,10 @@
 package main
 
-func SCardCommand(args []Value) Value {
-	if len(args) != 1 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SCardCommandCheck(args []Value) bool {
+	return len(args) == 1
+}
 
+func SCardCommand(args []Value) Value {
 	SETsMu.RLock()
 	defer SETsMu.RUnlock()
 

@@ -2,11 +2,11 @@ package main
 
 import "strconv"
 
-func IncrCommand(args []Value) Value {
-	if len(args) != 1 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func IncrCommandCheck(args []Value) bool {
+	return len(args) == 1
+}
 
+func IncrCommand(args []Value) Value {
 	key := args[0].str
 
 	VALUEsMu.Lock()

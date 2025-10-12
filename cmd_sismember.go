@@ -2,11 +2,11 @@ package main
 
 import "slices"
 
-func SIsMemberCommand(args []Value) Value {
-	if len(args) != 2 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SIsMemberCommandCheck(args []Value) bool {
+	return len(args) == 2
+}
 
+func SIsMemberCommand(args []Value) Value {
 	SETsMu.RLock()
 	defer SETsMu.RUnlock()
 

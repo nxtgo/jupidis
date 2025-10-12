@@ -2,11 +2,11 @@ package main
 
 import "slices"
 
-func SUnionStoreCommand(args []Value) Value {
-	if len(args) < 2 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func SUnionStoreCommandCheck(args []Value) bool {
+	return len(args) >= 2
+}
 
+func SUnionStoreCommand(args []Value) Value {
 	SETsMu.Lock()
 	defer SETsMu.Unlock()
 

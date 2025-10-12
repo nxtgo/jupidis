@@ -1,10 +1,10 @@
 package main
 
-func AppendCommand(args []Value) Value {
-	if len(args) != 2 {
-		return Value{typ: "error", str: "ERR wrong number of arguments"}
-	}
+func AppendCommandCheck(args []Value) bool {
+	return len(args) == 2
+}
 
+func AppendCommand(args []Value) Value {
 	VALUEsMu.Lock()
 	defer VALUEsMu.Unlock()
 
