@@ -20,10 +20,12 @@ func LockAllMu() {
 	VALUEsMu.Lock()
 	HSETsMu.Lock()
 	SETsMu.Lock()
+	LISTsMu.Lock()
 }
 
 func UnlockAllMu() {
 	VALUEsMu.Unlock()
 	HSETsMu.Unlock()
 	SETsMu.Unlock()
+	LISTsMu.Unlock()
 }
