@@ -26,7 +26,7 @@ func KeysCommand(args []Value) Value {
 	HSETsMu.RLock()
 	for key := range HSETs {
 		if g.Match(key) {
-			result = append(result, Value{typ: "hash", str: key})
+			result = append(result, Value{typ: "bulk", str: key})
 		}
 	}
 	HSETsMu.RUnlock()
@@ -34,7 +34,7 @@ func KeysCommand(args []Value) Value {
 	SETsMu.RLock()
 	for key := range SETs {
 		if g.Match(key) {
-			result = append(result, Value{typ: "set", str: key})
+			result = append(result, Value{typ: "bulk", str: key})
 		}
 	}
 	SETsMu.RUnlock()
@@ -42,7 +42,7 @@ func KeysCommand(args []Value) Value {
 	LISTsMu.RLock()
 	for key := range LISTs {
 		if g.Match(key) {
-			result = append(result, Value{typ: "list", str: key})
+			result = append(result, Value{typ: "bulk", str: key})
 		}
 	}
 	LISTsMu.RUnlock()
