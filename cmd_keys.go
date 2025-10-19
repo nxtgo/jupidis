@@ -13,12 +13,12 @@ func KeysCommand(args []Value) Value {
 	pattern := args[0].str
 	g := golb.Compile(pattern)
 
-	var matchingKeys []string
+	var result []Value
 
 	VALUEsMu.RLock()
 	for key := range VALUEs {
 		if g.Match(key) {
-			matchingKeys = append(matchingKeys, key)
+			result = append(result, Value{typ: "bulk", str: key})
 		}
 	}
 	VALUEsMu.RUnlock()
@@ -26,7 +26,7 @@ func KeysCommand(args []Value) Value {
 	HSETsMu.RLock()
 	for key := range HSETs {
 		if g.Match(key) {
-			matchingKeys = append(matchingKeys, key)
+			result = append(result, Value{typ: "hash", str: key})
 		}
 	}
 	HSETsMu.RUnlock()
@@ -34,7 +34,7 @@ func KeysCommand(args []Value) Value {
 	SETsMu.RLock()
 	for key := range SETs {
 		if g.Match(key) {
-			matchingKeys = append(matchingKeys, key)
+			result = append(result, Value{typ: "set", str: key})
 		}
 	}
 	SETsMu.RUnlock()
@@ -42,15 +42,10 @@ func KeysCommand(args []Value) Value {
 	LISTsMu.RLock()
 	for key := range LISTs {
 		if g.Match(key) {
-			matchingKeys = append(matchingKeys, key)
+			result = append(result, Value{typ: "list", str: key})
 		}
 	}
 	LISTsMu.RUnlock()
-
-	result := make([]Value, len(matchingKeys))
-	for i, key := range matchingKeys {
-		result[i] = Value{typ: "bulk", str: key}
-	}
 
 	return Value{typ: "array", array: result}
 }
